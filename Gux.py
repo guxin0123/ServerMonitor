@@ -94,7 +94,8 @@ class MyDataBase():
             resultlie={}
             count=0
             for i in col_name_list:
-                resultlie[i]=row[count]
+                resultlie["name"]=i
+                resultlie["val"]=row[count]
                 count = count+1
             result.append(resultlie)
 
