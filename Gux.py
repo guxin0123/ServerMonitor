@@ -88,16 +88,17 @@ class MyDataBase():
         col_name_list = [tuple[0] for tuple in cur.description]  
        
         rs = cu.fetchall()
-        result = []
-
+        result = {}
+        result["head"]=col_name_list
+        result["body"]=[]
         for row in rs:
-            resultlie={}
             count=0
             for i in col_name_list:
+                resultlie={}
                 resultlie["name"]=i
                 resultlie["val"]=row[count]
                 count = count+1
-            result.append(resultlie)
+                result.append(resultlie)
 
         jsonString = []
         jsonString.append(result)
