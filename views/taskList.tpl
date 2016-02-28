@@ -20,10 +20,15 @@
 </form>
 <script>
     var data = {{ !data }}
-    for (var i = 0; i < data.length; i++) {
+
+    $(".table").append("<tr></tr>");
+    for (var i = 0; i < data.head.length; i++) {
+        $(".table tr").last().append("<th>"+ data.head[i] +"</th>");
+    }
+    for (var i = 0; i < data.body.length; i++) {
         $(".table").append("<tr></tr>");
-        for (var j = 0; j < data[i].length; j++) {
-            $(".table tr").last().append("<td>"+ data[i][j] +"</td>");
+        for (var j = 0; j < data.head.length; j++) {
+            $(".table tr").last().append("<td>"+ data.body[i][data.head[j]] +"</td>");
 
         }
     }

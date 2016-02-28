@@ -52,7 +52,7 @@ def taskAdd():
         taskUrl = request.forms.get('taskUrl')      
         #print('taskName= '+taskName+' taskUrl= '+taskUrl) # test
         
-        mdb.executeNullReturn("INSERT INTO task VALUES (null, " + taskName + ", " + taskUrl + ", " + taskUrl + ", 1);")
+        mdb.executeNullReturn("INSERT INTO task VALUES (null, '" + taskName + "', '" + taskUrl + "', '" + taskUrl + "', 1);")
         return "<p>add Success. </p>"
 
 

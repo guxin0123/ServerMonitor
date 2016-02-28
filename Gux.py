@@ -93,13 +93,11 @@ class MyDataBase():
         result["body"]=[]
         for row in rs:
             count=0
+            resultLine={}
             for i in col_name_list:
-                resultlie={}
-                resultlie["name"]=i
-                resultlie["val"]=row[count]
+                resultLine[col_name_list[count]]=row[count]
                 count = count+1
-                result.append(resultlie)
-
+            result["body"].append(resultLine)
         jsonString = []
         jsonString.append(result)
         return json.dumps(result,sort_keys=True,indent=4)
@@ -108,76 +106,6 @@ class MyDataBase():
             
 
     
-    #================================
-    def hasChild(appId):
-        sql = "select count(*) from javahost_apptree where parentID=%d" % int(appId)
-        cu.execute(sql)
-        print("s")
-        rs = cu.fetchone()
-        return int(rs[0]) > 0
-    """判断当前这个应用ID是不是叶节点"""
-    def isleaf(appid):
-        sql = "select count(*) from javahost_apptree where appID=%d and isleaf=1" % int(appid)
-        cu.execute(sql)
-        rs = cu.fetchone()
-        return int(rs[0]) > 0
-    """提取当前指定应用下面的全部的子节点。返回指定节点其下面的子节点列表
-    [
-        {
-            id:1,
-            text:33,
-            value:01
-            complete:true,
-            hasChileren:true,
-        }
-    ]
-    """
-    def toJsonString(appId):
-        resl = []
-        sql = "select appID,appName,parentID,isLeaf from javahost_apptree where parentID=%d" % int(appId)
-        cu.execute(sql)
-        rs = cu.fetchall()
-        for row in rs:
-            result = {}
-            result['complete'] = True
-            if hasChild(row[0]):
-                result['hasChildren'] = True
-                result['ChildNodes'] = toJsonString(row[0])
-            else:
-                result['hasChildren'] = False
-            result['id'] = row[0]
-            result['text'] = row[1]
-            if isleaf(row[0]):
-                result['value'] = '0' + row[0]
-            else:
-                result['value'] = row[0]
-            resl.append(result)
-        return resl
-
-    def generateInitTreeString():
-        """获取根节点数据不断迭代生成树"""
-        jsonString = []
-        cu.execute('select appID,appName,parentID,isLeaf from javahost_apptree where parentID=0 and id!=1046')
-        rs = cu.fetchall()
-        for row in rs:
-            result = {}
-            result['complete'] = True
-            if hasChild(row[0]):
-                result['hasChildren'] = True
-                result['ChildNodes'] = toJsonString(row[0])
-            else:
-                result['hasChildren'] = False
-                result['ChildNodes'] = None
-        
-            result['id'] = row[0]
-            result['text'] = row[1]
-            if isleaf(row[0]):
-                result['value'] = '0' + row[0]
-            else:
-                result['value'] = row[0]
-            jsonString.append(result)
-        return json.dumps(jsonString,ensure_ascii=True)
-            
 
 
     
